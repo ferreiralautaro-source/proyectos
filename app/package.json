@@ -1,0 +1,35 @@
+{
+  "name": "petpals",
+  "version": "1.0.0",
+  "description": "PetPals — Desktop pets with a store & subscription system",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:win": "electron-builder --win --x64",
+    "build:dir": "electron-builder --win --dir"
+  },
+  "build": {
+    "appId": "com.petpals.app",
+    "productName": "PetPals",
+    "copyright": "Copyright © 2025 PetPals",
+    "win": {
+      "target": ["nsis"],
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": true,
+      "installerIcon": "assets/icon.ico",
+      "uninstallerIcon": "assets/icon.ico",
+      "shortcutName": "PetPals"
+    },
+    "files": [
+      "**/*",
+      "!server/**",
+      "!*.md"
+    ]
+  },
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-builder": "^24.13.3"
+  }
+}

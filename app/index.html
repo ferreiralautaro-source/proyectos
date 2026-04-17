@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="pet.css">
+</head>
+<body>
+  <div id="ctx-menu">
+    <div class="ctx-header">
+      <div id="ctx-visual"></div>
+      <div>
+        <div id="ctx-name">Mascota</div>
+        <div id="ctx-state">caminando</div>
+      </div>
+    </div>
+    <div class="ctx-sep"></div>
+    <div class="ctx-item" id="ctx-follow">🖱️ Seguir cursor</div>
+    <div class="ctx-item" id="ctx-clone">✨ Clonar</div>
+    <div class="ctx-item" id="ctx-new">🐾 Nueva mascota</div>
+    <div class="ctx-sep"></div>
+    <div class="ctx-item danger" id="ctx-dismiss">Despedir esta</div>
+    <div class="ctx-item danger" id="ctx-dismiss-all">Despedir todas</div>
+  </div>
+
+  <div id="bubble"><span id="bubble-text"></span></div>
+  <div id="pet"></div>
+
+  <script src="pet.js"></script>
+</body>
+</html>
