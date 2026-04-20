@@ -41,7 +41,6 @@ body {
 
 .no-drag { -webkit-app-region: no-drag; }
 
-/* ── TITLEBAR ── */
 .titlebar {
   display: flex;
   align-items: center;
@@ -50,13 +49,7 @@ body {
   position: relative;
   z-index: 10;
 }
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
+.logo { display: flex; align-items: center; gap: 10px; }
 .logo-icon {
   width: 32px; height: 32px;
   background: linear-gradient(135deg, var(--accent2), var(--accent));
@@ -65,44 +58,30 @@ body {
   font-size: 16px;
   box-shadow: 0 0 20px var(--accent-glow);
 }
-
 .logo-text {
   font-family: 'Syne', sans-serif;
-  font-size: 18px;
-  font-weight: 800;
+  font-size: 18px; font-weight: 800;
   letter-spacing: -0.02em;
   background: linear-gradient(90deg, #fff 60%, var(--accent));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-
 .logo-badge {
-  font-size: 10px;
-  font-weight: 600;
-  padding: 2px 7px;
-  border-radius: 20px;
+  font-size: 10px; font-weight: 600;
+  padding: 2px 7px; border-radius: 20px;
   background: var(--accent-glow);
   border: 1px solid rgba(124,92,246,0.3);
   color: var(--accent);
   -webkit-text-fill-color: var(--accent);
   letter-spacing: 0.05em;
 }
-
-.wm-buttons {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
+.wm-buttons { display: flex; gap: 8px; align-items: center; }
 .wm-btn {
-  width: 28px; height: 28px;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  font-size: 12px;
+  width: 28px; height: 28px; border-radius: 50%;
+  border: none; cursor: pointer; font-size: 12px;
   display: flex; align-items: center; justify-content: center;
-  transition: opacity 0.15s;
-  background: var(--bg3);
-  color: var(--txt2);
+  transition: all 0.15s;
+  background: var(--bg3); color: var(--txt2);
 }
 .wm-btn:hover { opacity: 0.75; }
 .wm-btn.close:hover { background: var(--red); color: #fff; opacity: 1; }
@@ -110,7 +89,7 @@ body {
 /* ── LAYOUT ── */
 .shell {
   display: flex;
-  height: calc(620px - 60px);
+  height: calc(620px - 62px);
   margin-top: 14px;
 }
 
@@ -118,98 +97,56 @@ body {
 .sidebar {
   width: 200px;
   padding: 8px 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+  display: flex; flex-direction: column; gap: 2px;
   border-right: 1px solid var(--line);
   flex-shrink: 0;
 }
-
 .nav-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 12px;
-  border-radius: var(--r-sm);
-  cursor: pointer;
-  font-size: 13.5px;
-  font-weight: 500;
-  color: var(--txt2);
-  transition: all 0.15s;
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: var(--r-sm);
+  cursor: pointer; font-size: 13.5px; font-weight: 500;
+  color: var(--txt2); transition: all 0.15s;
   position: relative;
 }
 .nav-item:hover { color: var(--txt); background: var(--bg2); }
-.nav-item.active {
-  color: #fff;
-  background: var(--bg3);
-}
+.nav-item.active { color: #fff; background: var(--bg3); }
 .nav-item.active::before {
   content: '';
-  position: absolute;
-  left: 0; top: 50%;
+  position: absolute; left: 0; top: 50%;
   transform: translateY(-50%);
   width: 3px; height: 60%;
-  background: var(--accent);
-  border-radius: 2px;
+  background: var(--accent); border-radius: 2px;
 }
 .nav-icon { font-size: 16px; width: 20px; text-align: center; }
-
 .sidebar-spacer { flex: 1; }
-
 .license-box {
-  padding: 12px;
-  background: var(--bg2);
-  border-radius: var(--r-sm);
-  border: 1px solid var(--line2);
+  padding: 12px; background: var(--bg2);
+  border-radius: var(--r-sm); border: 1px solid var(--line2);
 }
 .license-box .plan-label {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--txt3);
-  margin-bottom: 4px;
+  font-size: 10px; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--txt3); margin-bottom: 4px;
 }
-.license-box .plan-name {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--accent);
-}
+.license-box .plan-name { font-size: 13px; font-weight: 600; color: var(--accent); }
 .license-box .plan-name.free { color: var(--txt2); }
 .license-box .plan-name.petpass { color: var(--gold); }
 .license-box .license-email {
-  font-size: 11px;
-  color: var(--txt3);
-  margin-top: 3px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  font-size: 11px; color: var(--txt3); margin-top: 3px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .license-box .btn-sm {
-  margin-top: 8px;
-  font-size: 11px;
-  padding: 4px 10px;
-  border-radius: 6px;
-  border: 1px solid var(--line2);
-  background: transparent;
-  color: var(--txt2);
-  cursor: pointer;
+  margin-top: 8px; font-size: 11px; padding: 4px 10px;
+  border-radius: 6px; border: 1px solid var(--line2);
+  background: transparent; color: var(--txt2); cursor: pointer;
   transition: all 0.15s;
 }
 .license-box .btn-sm:hover { border-color: var(--accent); color: var(--accent); }
 
-/* ── MAIN CONTENT ── */
-.content {
-  flex: 1;
-  overflow: hidden;
-  position: relative;
-}
-
+/* ── CONTENT ── */
+.content { flex: 1; overflow: hidden; position: relative; }
 .panel {
-  position: absolute;
-  inset: 0;
-  padding: 16px 20px;
-  overflow-y: auto;
-  display: none;
+  position: absolute; inset: 0;
+  padding: 16px 20px; overflow-y: auto; display: none;
 }
 .panel.active { display: block; }
 .panel::-webkit-scrollbar { width: 4px; }
@@ -218,41 +155,32 @@ body {
 /* ── SECTION LABELS ── */
 .section-title {
   font-family: 'Syne', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--txt3);
-  margin: 14px 0 10px;
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--txt3); margin: 14px 0 10px;
 }
 .section-title:first-child { margin-top: 0; }
 
-/* ── PET GRID ── */
+/* ── PET GRID (Gallery) ── */
 .pet-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  margin-bottom: 6px;
+  gap: 10px; margin-bottom: 6px;
 }
-
 .pet-card {
   background: var(--bg2);
   border: 1.5px solid var(--line);
   border-radius: var(--r);
   padding: 14px 10px 12px;
-  cursor: pointer;
-  text-align: center;
+  cursor: pointer; text-align: center;
   transition: all 0.18s;
-  position: relative;
-  overflow: hidden;
+  position: relative; overflow: hidden;
 }
 .pet-card::before {
   content: '';
-  position: absolute;
-  inset: 0;
+  position: absolute; inset: 0;
   background: linear-gradient(135deg, var(--accent-glow), transparent 60%);
-  opacity: 0;
-  transition: opacity 0.2s;
+  opacity: 0; transition: opacity 0.2s;
 }
 .pet-card:hover { border-color: rgba(180,142,240,0.35); transform: translateY(-2px); }
 .pet-card:hover::before { opacity: 1; }
@@ -260,256 +188,161 @@ body {
   border-color: var(--accent);
   box-shadow: 0 0 0 1px var(--accent), 0 4px 24px var(--accent-glow);
 }
-
 .pet-card .pet-visual {
-  font-size: 40px;
-  line-height: 1;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 8px;
-  position: relative;
-  z-index: 1;
+  font-size: 40px; line-height: 1;
+  height: 48px; display: flex; align-items: center; justify-content: center;
+  margin-bottom: 8px; position: relative; z-index: 1;
 }
-.pet-card .pet-visual img {
-  width: 48px; height: 48px;
-  object-fit: contain;
-}
+.pet-card .pet-visual img { width: 48px; height: 48px; object-fit: contain; }
 .pet-card .pet-card-name {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--txt);
+  font-size: 12px; font-weight: 600; color: var(--txt);
   position: relative; z-index: 1;
 }
-.pet-card .pet-card-desc {
-  font-size: 10px;
-  color: var(--txt2);
-  margin-top: 3px;
-  line-height: 1.4;
-  position: relative; z-index: 1;
-}
-
-/* Tier badges */
 .tier-badge {
-  position: absolute;
-  top: 7px; right: 7px;
-  font-size: 9px;
-  font-weight: 700;
-  padding: 2px 6px;
-  border-radius: 20px;
-  letter-spacing: 0.05em;
-  z-index: 2;
+  position: absolute; top: 7px; right: 7px;
+  font-size: 9px; font-weight: 700; padding: 2px 6px;
+  border-radius: 20px; letter-spacing: 0.05em; z-index: 2;
 }
 .tier-free    { background: rgba(96,224,160,0.15); color: var(--green); border: 1px solid rgba(96,224,160,0.25); }
 .tier-premium { background: rgba(180,142,240,0.15); color: var(--accent); border: 1px solid rgba(180,142,240,0.25); }
 .tier-petpass { background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(240,192,96,0.3); }
 .tier-locked  { background: var(--bg3); color: var(--txt3); border: 1px solid var(--line); }
-
 .lock-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(9,9,15,0.55);
-  backdrop-filter: blur(1px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: absolute; inset: 0;
+  background: rgba(9,9,15,0.6);
+  display: flex; align-items: center; justify-content: center;
   font-size: 20px;
   border-radius: calc(var(--r) - 1.5px);
-  opacity: 0;
-  transition: opacity 0.18s;
-  z-index: 3;
+  opacity: 0; transition: opacity 0.18s; z-index: 3;
 }
 .pet-card.locked:hover .lock-overlay { opacity: 1; }
 .pet-card.locked { cursor: default; }
 .pet-card.locked:hover { transform: none; }
 
-/* ── STORE TAB ── */
+/* ── STORE ── */
 .store-hero {
   background: linear-gradient(135deg, #1a1130 0%, #0f0f20 50%, #0d1520 100%);
-  border: 1px solid var(--line2);
-  border-radius: var(--r);
-  padding: 22px 24px;
-  margin-bottom: 16px;
-  position: relative;
-  overflow: hidden;
+  border: 1px solid var(--line2); border-radius: var(--r);
+  padding: 22px 24px; margin-bottom: 16px;
+  position: relative; overflow: hidden;
 }
 .store-hero::before {
   content: '';
-  position: absolute;
-  top: -40px; right: -40px;
+  position: absolute; top: -40px; right: -40px;
   width: 180px; height: 180px;
   background: radial-gradient(circle, rgba(124,92,246,0.2), transparent 70%);
   pointer-events: none;
 }
 .store-hero h2 {
   font-family: 'Syne', sans-serif;
-  font-size: 20px;
-  font-weight: 800;
-  margin-bottom: 6px;
+  font-size: 20px; font-weight: 800; margin-bottom: 6px;
   background: linear-gradient(90deg, #fff, var(--accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 .store-hero p { font-size: 13px; color: var(--txt2); line-height: 1.6; max-width: 380px; }
 
-/* PetPass card */
 .petpass-card {
   background: linear-gradient(135deg, #1c1520 0%, #120e1c 100%);
   border: 1.5px solid rgba(240,192,96,0.25);
-  border-radius: var(--r);
-  padding: 18px 20px;
+  border-radius: var(--r); padding: 18px 20px;
   margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
+  display: flex; align-items: center; gap: 16px;
 }
 .petpass-icon {
-  font-size: 36px;
-  flex-shrink: 0;
+  font-size: 36px; flex-shrink: 0;
   filter: drop-shadow(0 0 12px rgba(240,192,96,0.4));
 }
 .petpass-info { flex: 1; }
 .petpass-info h3 {
   font-family: 'Syne', sans-serif;
   font-size: 15px; font-weight: 800;
-  color: var(--gold);
-  margin-bottom: 4px;
+  color: var(--gold); margin-bottom: 4px;
 }
 .petpass-info p { font-size: 12px; color: var(--txt2); line-height: 1.5; }
 .petpass-info ul {
-  margin-top: 6px;
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+  margin-top: 6px; list-style: none;
+  display: flex; flex-wrap: wrap; gap: 6px;
 }
 .petpass-info ul li {
-  font-size: 11px;
-  padding: 2px 8px;
-  border-radius: 20px;
-  background: var(--gold-dim);
-  color: var(--gold);
+  font-size: 11px; padding: 2px 8px; border-radius: 20px;
+  background: var(--gold-dim); color: var(--gold);
   border: 1px solid rgba(240,192,96,0.2);
 }
 .petpass-btns { display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
 
-/* Buttons */
 .btn {
-  padding: 9px 18px;
-  border-radius: var(--r-sm);
-  border: none;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.15s;
-  font-family: 'DM Sans', sans-serif;
-  white-space: nowrap;
+  padding: 9px 18px; border-radius: var(--r-sm);
+  border: none; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all 0.15s;
+  font-family: 'DM Sans', sans-serif; white-space: nowrap;
 }
 .btn:active { transform: scale(0.97); }
 .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
-
 .btn-primary {
   background: linear-gradient(135deg, var(--accent2), var(--accent));
-  color: #fff;
-  box-shadow: 0 2px 16px var(--accent-glow);
+  color: #fff; box-shadow: 0 2px 16px var(--accent-glow);
 }
 .btn-primary:hover { box-shadow: 0 4px 24px rgba(124,92,246,0.45); opacity: 0.92; }
-
 .btn-gold {
   background: linear-gradient(135deg, #c09040, var(--gold));
   color: #1a1000;
 }
 .btn-gold:hover { opacity: 0.88; }
-
-.btn-ghost {
+.btn-outline {
   background: transparent;
-  border: 1px solid var(--line2);
-  color: var(--txt2);
+  border: 1px solid rgba(240,192,96,0.4);
+  color: var(--gold);
+}
+.btn-outline:hover { background: var(--gold-dim); }
+.btn-ghost {
+  background: transparent; border: 1px solid var(--line2); color: var(--txt2);
 }
 .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+.price-tag { font-size: 11px; font-weight: 400; opacity: 0.8; }
 
-.btn-launch {
-  width: 100%;
-  padding: 11px;
-  font-size: 14px;
-  border-radius: var(--r-sm);
-}
-
-.price-tag {
-  font-size: 11px;
-  font-weight: 400;
-  opacity: 0.8;
-}
-
-/* ── STORE ITEM GRID ── */
 .store-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
-
 .store-card {
-  background: var(--bg2);
-  border: 1.5px solid var(--line);
-  border-radius: var(--r);
-  padding: 16px 14px 14px;
-  position: relative;
-  overflow: hidden;
+  background: var(--bg2); border: 1.5px solid var(--line);
+  border-radius: var(--r); padding: 16px 14px 14px;
+  position: relative; overflow: hidden;
   transition: border-color 0.18s, transform 0.18s;
 }
 .store-card:hover { border-color: var(--line2); transform: translateY(-2px); }
-
 .store-card .visual {
-  font-size: 38px;
-  height: 48px;
+  font-size: 38px; height: 48px;
   display: flex; align-items: center; justify-content: center;
   margin-bottom: 10px;
 }
 .store-card h4 { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
 .store-card .desc { font-size: 11px; color: var(--txt2); line-height: 1.4; margin-bottom: 10px; }
-.store-card .behaviors {
-  display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 12px;
-}
+.store-card .behaviors { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 12px; }
 .behavior-tag {
-  font-size: 10px;
-  padding: 2px 7px;
-  border-radius: 20px;
-  background: var(--bg3);
-  color: var(--txt2);
-  border: 1px solid var(--line);
+  font-size: 10px; padding: 2px 7px; border-radius: 20px;
+  background: var(--bg3); color: var(--txt2); border: 1px solid var(--line);
 }
 .store-card .card-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: flex; align-items: center; justify-content: space-between;
 }
-.store-card .price {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--txt);
-}
+.store-card .price { font-size: 15px; font-weight: 700; color: var(--txt); }
 .store-card .price .cents { font-size: 11px; font-weight: 400; color: var(--txt2); }
 .store-card .owned-badge {
-  font-size: 11px;
-  padding: 4px 10px;
-  border-radius: 6px;
-  background: rgba(96,224,160,0.1);
-  color: var(--green);
+  font-size: 11px; padding: 4px 10px; border-radius: 6px;
+  background: rgba(96,224,160,0.1); color: var(--green);
   border: 1px solid rgba(96,224,160,0.2);
 }
 
-/* ── UPLOAD TAB ── */
+/* ── UPLOAD ── */
 .drop-zone {
   border: 2px dashed rgba(124,92,246,0.25);
-  border-radius: var(--r);
-  padding: 36px 24px;
-  text-align: center;
-  cursor: pointer;
+  border-radius: var(--r); padding: 36px 24px;
+  text-align: center; cursor: pointer;
   transition: all 0.18s;
   background: rgba(124,92,246,0.03);
-  position: relative;
-  margin-bottom: 16px;
+  position: relative; margin-bottom: 16px;
 }
 .drop-zone:hover, .drop-zone.over {
   border-color: rgba(180,142,240,0.5);
@@ -520,40 +353,25 @@ body {
 .drop-zone p { font-size: 13px; color: var(--txt2); line-height: 1.7; }
 .drop-zone strong { color: var(--accent); font-weight: 600; }
 .drop-zone .formats { font-size: 11px; color: var(--txt3); margin-top: 6px; }
-
-.custom-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-}
+.custom-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
 .custom-thumb {
-  aspect-ratio: 1;
-  border-radius: var(--r-sm);
-  overflow: hidden;
-  border: 1.5px solid var(--line);
-  background: var(--bg2);
-  cursor: pointer;
-  position: relative;
-  transition: border-color 0.15s;
+  aspect-ratio: 1; border-radius: var(--r-sm); overflow: hidden;
+  border: 1.5px solid var(--line); background: var(--bg2);
+  cursor: pointer; position: relative; transition: border-color 0.15s;
 }
 .custom-thumb img { width: 100%; height: 100%; object-fit: contain; }
 .custom-thumb.selected { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
 .custom-thumb .del {
   position: absolute; top: 3px; right: 3px;
-  width: 16px; height: 16px;
-  border-radius: 50%;
-  background: rgba(240,96,112,0.85);
-  border: none; color: #fff;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: rgba(240,96,112,0.85); border: none; color: #fff;
   font-size: 9px; cursor: pointer;
   display: none; align-items: center; justify-content: center;
 }
 .custom-thumb:hover .del { display: flex; }
 
-/* ── LICENSE PANEL ── */
-.license-panel {
-  max-width: 400px;
-  margin: 20px auto 0;
-}
+/* ── LICENSE ── */
+.license-panel { max-width: 400px; margin: 20px auto 0; }
 .license-panel h2 {
   font-family: 'Syne', sans-serif;
   font-size: 20px; font-weight: 800;
@@ -563,16 +381,11 @@ body {
 .form-group { margin-bottom: 14px; }
 .form-group label { display: block; font-size: 12px; font-weight: 500; color: var(--txt2); margin-bottom: 6px; }
 .form-group input {
-  width: 100%;
-  padding: 10px 14px;
-  background: var(--bg2);
-  border: 1.5px solid var(--line2);
-  border-radius: var(--r-sm);
-  color: var(--txt);
-  font-size: 13px;
-  font-family: 'DM Sans', sans-serif;
-  outline: none;
-  transition: border-color 0.15s;
+  width: 100%; padding: 10px 14px;
+  background: var(--bg2); border: 1.5px solid var(--line2);
+  border-radius: var(--r-sm); color: var(--txt);
+  font-size: 13px; font-family: 'DM Sans', sans-serif;
+  outline: none; transition: border-color 0.15s;
 }
 .form-group input:focus { border-color: var(--accent); }
 .form-group input::placeholder { color: var(--txt3); }
@@ -582,40 +395,29 @@ body {
 
 /* ── FOOTER ── */
 .footer {
-  position: fixed;
-  bottom: 0; left: 200px; right: 0;
-  height: 64px;
-  padding: 10px 20px;
+  position: fixed; bottom: 0; left: 200px; right: 0;
+  height: 66px; padding: 12px 20px;
   background: linear-gradient(transparent, var(--bg0) 50%);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  pointer-events: none;
+  display: flex; align-items: center; justify-content: space-between;
   z-index: 50;
 }
-.selected-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  pointer-events: auto;
+.selected-info { display: flex; align-items: center; gap: 10px; }
+.selected-visual {
+  font-size: 28px; width: 38px; height: 38px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg2); border-radius: 10px; border: 1px solid var(--line2);
 }
-.selected-visual { font-size: 28px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
-.selected-visual img { width: 36px; height: 36px; object-fit: contain; }
+.selected-visual img { width: 32px; height: 32px; object-fit: contain; }
 .selected-meta .sel-name { font-size: 14px; font-weight: 600; }
-.selected-meta .sel-sub  { font-size: 11px; color: var(--txt2); }
-
-.footer-btn { pointer-events: auto; }
+.selected-meta .sel-sub { font-size: 11px; color: var(--txt2); }
 
 /* ── POLLING OVERLAY ── */
 .poll-overlay {
   position: fixed; inset: 0;
   background: rgba(9,9,15,0.92);
-  display: none;
-  align-items: center; justify-content: center;
-  flex-direction: column;
-  gap: 14px;
-  z-index: 200;
-  backdrop-filter: blur(4px);
+  display: none; align-items: center; justify-content: center;
+  flex-direction: column; gap: 14px;
+  z-index: 200; backdrop-filter: blur(4px);
 }
 .poll-overlay.visible { display: flex; }
 .poll-spinner {
@@ -632,7 +434,6 @@ body {
 </head>
 <body>
 
-<!-- TITLEBAR -->
 <div class="titlebar">
   <div class="logo">
     <div class="logo-icon">🐾</div>
@@ -640,12 +441,11 @@ body {
     <span class="logo-badge">BETA</span>
   </div>
   <div class="wm-buttons no-drag">
-    <button class="wm-btn" id="btn-min" title="Minimizar">—</button>
-    <button class="wm-btn close" id="btn-close" title="Cerrar">✕</button>
+    <button class="wm-btn no-drag" id="btn-min">—</button>
+    <button class="wm-btn close no-drag" id="btn-close">✕</button>
   </div>
 </div>
 
-<!-- SHELL -->
 <div class="shell">
 
   <!-- SIDEBAR -->
@@ -662,10 +462,8 @@ body {
     <div class="nav-item" data-tab="license">
       <span class="nav-icon">🔑</span> Licencia
     </div>
-
     <div class="sidebar-spacer"></div>
-
-    <div class="license-box" id="sidebar-license-box">
+    <div class="license-box">
       <div class="plan-label">Plan actual</div>
       <div class="plan-name free" id="sb-plan">Gratis</div>
       <div class="license-email" id="sb-email">Sin sesión</div>
@@ -676,20 +474,22 @@ body {
   <!-- CONTENT -->
   <main class="content no-drag">
 
-    <!-- ── GALLERY ── -->
+    <!-- GALLERY -->
     <div class="panel active" id="panel-gallery">
       <div class="section-title">Disponibles</div>
       <div class="pet-grid" id="grid-available"></div>
-      <div class="section-title" id="label-locked" style="display:none">Bloqueadas — visita la Tienda</div>
+      <div class="section-title" id="label-locked" style="display:none">
+        🔒 Bloqueadas — visita la Tienda
+      </div>
       <div class="pet-grid" id="grid-locked"></div>
-      <div style="height: 70px;"></div>
+      <div style="height:70px;"></div>
     </div>
 
-    <!-- ── STORE ── -->
+    <!-- STORE -->
     <div class="panel" id="panel-store">
       <div class="store-hero">
         <h2>Tienda PetPals ✨</h2>
-        <p>Amplía tu colección con mascotas exclusivas con comportamientos únicos e interactivos.</p>
+        <p>Amplía tu colección con mascotas exclusivas con comportamientos únicos.</p>
       </div>
 
       <div class="petpass-card" id="petpass-card">
@@ -700,26 +500,28 @@ body {
           <ul>
             <li>✦ Todas las mascotas</li>
             <li>✦ Novedades mensuales</li>
-            <li>✦ Sin anuncios nunca</li>
+            <li>✦ Sin anuncios</li>
             <li>✦ Soporte prioritario</li>
           </ul>
         </div>
         <div class="petpass-btns no-drag">
-          <button class="btn btn-gold" id="btn-pass-month">
+          <button class="btn btn-gold no-drag" id="btn-pass-month">
             $3.99 <span class="price-tag">/ mes</span>
           </button>
-          <button class="btn btn-ghost" id="btn-pass-year">
+          <button class="btn btn-ghost no-drag" id="btn-pass-year">
             $29.99 <span class="price-tag">/ año</span>
           </button>
         </div>
       </div>
 
+      <div id="store-msg" style="display:none;margin:0 0 12px;padding:10px 14px;border-radius:10px;font-size:13px;background:rgba(240,192,96,0.1);border:1px solid rgba(240,192,96,0.25);color:var(--gold);"></div>
+
       <div class="section-title">Mascotas individuales</div>
       <div class="store-grid" id="store-grid"></div>
-      <div style="height: 20px;"></div>
+      <div style="height:20px;"></div>
     </div>
 
-    <!-- ── CUSTOM ── -->
+    <!-- CUSTOM -->
     <div class="panel" id="panel-custom">
       <div class="drop-zone" id="drop-zone">
         <input type="file" id="file-input" accept="image/png,image/jpeg,image/gif,image/webp" multiple>
@@ -731,10 +533,10 @@ body {
       <div class="custom-grid" id="custom-grid">
         <p style="color:var(--txt3);font-size:12px;grid-column:1/-1;">Aún no subiste imágenes.</p>
       </div>
-      <div style="height: 70px;"></div>
+      <div style="height:70px;"></div>
     </div>
 
-    <!-- ── LICENSE ── -->
+    <!-- LICENSE -->
     <div class="panel" id="panel-license">
       <div class="license-panel">
         <div style="text-align:center;font-size:36px;margin-bottom:12px;">🔑</div>
@@ -748,10 +550,13 @@ body {
           <label>Clave de licencia</label>
           <input type="text" id="lic-key" placeholder="PET-XXXX-XXXX-XXXX-XXXX" spellcheck="false">
         </div>
-        <button class="btn btn-primary btn-launch no-drag" id="btn-verify">Verificar licencia</button>
+        <button class="btn btn-primary no-drag" style="width:100%;padding:11px;" id="btn-verify">
+          Verificar licencia
+        </button>
         <div class="form-msg" id="form-msg"></div>
-        <div style="margin-top: 20px; text-align:center;">
-          <button class="btn btn-ghost no-drag" id="btn-logout" style="font-size:12px;padding:6px 14px;display:none;">
+        <div style="margin-top:20px;text-align:center;">
+          <button class="btn btn-ghost no-drag" id="btn-logout"
+            style="font-size:12px;padding:6px 14px;display:none;">
             Cerrar sesión
           </button>
         </div>
@@ -762,15 +567,15 @@ body {
 </div>
 
 <!-- FOOTER -->
-<div class="footer">
+<div class="footer no-drag">
   <div class="selected-info" id="footer-info" style="opacity:0;">
     <div class="selected-visual" id="footer-visual"></div>
     <div class="selected-meta">
       <div class="sel-name" id="footer-name">—</div>
-      <div class="sel-sub" id="footer-sub">Seleccionada</div>
+      <div class="sel-sub">Seleccionada</div>
     </div>
   </div>
-  <button class="btn btn-primary footer-btn" id="btn-launch" disabled>¡Invocar! 🐾</button>
+  <button class="btn btn-primary no-drag" id="btn-launch" disabled>¡Invocar! 🐾</button>
 </div>
 
 <!-- POLLING OVERLAY -->
@@ -783,18 +588,50 @@ body {
 
 <script>
 // ════════════════════════════════════════════════
-//  LAUNCHER SCRIPT
+//  CATÁLOGO LOCAL (siempre disponible, sin servidor)
 // ════════════════════════════════════════════════
-let catalog   = [];
-let license   = null;     // { email, key, plan, unlocked[] }
-let selected  = null;     // { type, value, name, id }
+const LOCAL_CATALOG = [
+  // GRATIS
+  { id:'cat_basic',  name:'Gatito',   tier:'free',    price:0,   emoji:'🐱', description:'El clásico infaltable',               behaviors:[] },
+  { id:'dog_basic',  name:'Perrito',  tier:'free',    price:0,   emoji:'🐶', description:'Fiel compañero de escritorio',         behaviors:[] },
+  { id:'frog_basic', name:'Ranita',   tier:'free',    price:0,   emoji:'🐸', description:'Salta y trepa por las paredes',        behaviors:[] },
+  { id:'ham_basic',  name:'Hámster',  tier:'free',    price:0,   emoji:'🐹', description:'Simpático y curioso',                  behaviors:[] },
+  { id:'fox_basic',  name:'Zorro',    tier:'free',    price:0,   emoji:'🦊', description:'Astuto y veloz',                       behaviors:[] },
+  // PREMIUM
+  { id:'ghost_pixel',  name:'Ghost.exe',    tier:'premium', price:199, emoji:'👻', description:'Aparece y desaparece por tu escritorio', behaviors:['flotar','teletransportarse','acechar'] },
+  { id:'dragon_pixel', name:'Dragón Pixel', tier:'premium', price:199, emoji:'🐲', description:'Lanza fuego al hacer doble clic',         behaviors:['caminar','fuego','volar'] },
+  { id:'ninja_pixel',  name:'Ninja',        tier:'premium', price:199, emoji:'🥷', description:'Se teletransporta al borde de pantalla',  behaviors:['caminar','dash','teletransporte'] },
+  { id:'cat_witch',    name:'Gata Bruja',   tier:'premium', price:199, emoji:'🧙‍♀️', description:'Lanza hechizos y deja estrellas',        behaviors:['caminar','hechizo','escoba'] },
+  { id:'robot_pet',    name:'RoboMascota',  tier:'premium', price:249, emoji:'🤖', description:'Muestra la hora y escanea tu escritorio', behaviors:['caminar','escanear','calcular'] },
+  // PETPASS
+  { id:'unicorn_pp', name:'Unicornio', tier:'petpass', price:0, emoji:'🦄', description:'Deja un rastro arcoíris al caminar',    behaviors:['caminar','arcoíris'] },
+  { id:'alien_pp',   name:'Alien',     tier:'petpass', price:0, emoji:'👾', description:'Escanea tu escritorio misteriosamente', behaviors:['caminar','escanear','abducir'] },
+];
+
+// ════════════════════════════════════════════════
+//  APP STATE
+// ════════════════════════════════════════════════
+let catalog  = LOCAL_CATALOG;   // siempre arranca con el local
+let license  = null;
+let selected = null;
 let pollTimer = null;
-let currentSessionId = null;
 
 // ── Init ─────────────────────────────────────────
 async function init() {
-  license = await window.api.readLicense();
-  catalog = await window.api.getCatalog();
+  // Leer licencia guardada
+  license = await window.api.readLicense().catch(() => null);
+
+  // Intentar catálogo del servidor; si falla o devuelve menos items que el local, usar el local
+  try {
+    const serverCatalog = await window.api.getCatalog();
+    if (Array.isArray(serverCatalog) && serverCatalog.length >= LOCAL_CATALOG.length) {
+      catalog = serverCatalog;
+    }
+    // si el servidor devuelve menos (fallback mínimo), preferimos el LOCAL_CATALOG completo
+  } catch (_) {
+    // servidor no disponible → usar LOCAL_CATALOG (ya asignado arriba)
+  }
+
   renderSidebar();
   renderGallery();
   renderStore();
@@ -805,49 +642,51 @@ function isUnlocked(pet) {
   if (pet.tier === 'free') return true;
   if (!license) return false;
   if (license.plan === 'petpass') return true;
-  return license.unlocked?.includes(pet.id);
+  return Array.isArray(license.unlocked) && license.unlocked.includes(pet.id);
 }
 
 // ── Sidebar ──────────────────────────────────────
 function renderSidebar() {
   const planEl  = document.getElementById('sb-plan');
   const emailEl = document.getElementById('sb-email');
-  const btn     = document.getElementById('sb-action');
+  const actionBtn = document.getElementById('sb-action');
 
   if (!license) {
-    planEl.textContent = 'Gratis';
-    planEl.className   = 'plan-name free';
-    emailEl.textContent= 'Sin sesión';
-    btn.textContent    = 'Activar licencia';
-    btn.onclick        = () => switchTab('license');
+    planEl.textContent  = 'Gratis';
+    planEl.className    = 'plan-name free';
+    emailEl.textContent = 'Sin sesión';
+    actionBtn.textContent = 'Activar licencia';
+    actionBtn.onclick   = () => switchTab('license');
     document.getElementById('btn-logout').style.display = 'none';
   } else {
-    planEl.textContent = license.plan === 'petpass' ? '👑 PetPass' : 'Premium';
-    planEl.className   = 'plan-name ' + (license.plan === 'petpass' ? 'petpass' : '');
-    emailEl.textContent= license.email;
-    btn.textContent    = 'Ver tienda';
-    btn.onclick        = () => switchTab('store');
+    planEl.textContent  = license.plan === 'petpass' ? '👑 PetPass' : 'Premium';
+    planEl.className    = 'plan-name ' + (license.plan === 'petpass' ? 'petpass' : '');
+    emailEl.textContent = license.email;
+    actionBtn.textContent = 'Ver tienda';
+    actionBtn.onclick   = () => switchTab('store');
     document.getElementById('btn-logout').style.display = 'block';
   }
 }
 
 // ── Gallery ──────────────────────────────────────
 function renderGallery() {
-  const avail  = document.getElementById('grid-available');
-  const locked = document.getElementById('grid-locked');
-  const label  = document.getElementById('label-locked');
-  avail.innerHTML = '';
-  locked.innerHTML= '';
+  const availGrid  = document.getElementById('grid-available');
+  const lockedGrid = document.getElementById('grid-locked');
+  const lockedLabel = document.getElementById('label-locked');
 
-  const unlocked = catalog.filter(isUnlocked);
-  const lk       = catalog.filter(p => !isUnlocked(p));
+  availGrid.innerHTML  = '';
+  lockedGrid.innerHTML = '';
 
-  unlocked.forEach(p => avail.appendChild(makePetCard(p, false)));
-  if (lk.length) {
-    label.style.display = '';
-    lk.forEach(p => locked.appendChild(makePetCard(p, true)));
+  const available = catalog.filter(p => isUnlocked(p));
+  const locked    = catalog.filter(p => !isUnlocked(p));
+
+  available.forEach(p => availGrid.appendChild(makePetCard(p, false)));
+
+  if (locked.length > 0) {
+    lockedLabel.style.display = '';
+    locked.forEach(p => lockedGrid.appendChild(makePetCard(p, true)));
   } else {
-    label.style.display = 'none';
+    lockedLabel.style.display = 'none';
   }
 }
 
@@ -855,33 +694,40 @@ function makePetCard(pet, isLocked) {
   const card = document.createElement('div');
   card.className = 'pet-card' + (isLocked ? ' locked' : '');
 
-  // tier badge
+  // Tier badge
   const badge = document.createElement('div');
   badge.className = 'tier-badge tier-' + (isLocked ? 'locked' : pet.tier);
-  badge.textContent = pet.tier === 'free' ? 'Gratis' : pet.tier === 'petpass' ? 'PetPass' : '$' + (pet.price/100).toFixed(2);
+  if (pet.tier === 'free')         badge.textContent = 'Gratis';
+  else if (pet.tier === 'petpass') badge.textContent = 'PetPass';
+  else                             badge.textContent = '$' + (pet.price / 100).toFixed(2);
   card.appendChild(badge);
 
-  // visual
+  // Visual
   const vis = document.createElement('div');
   vis.className = 'pet-visual';
   vis.textContent = pet.emoji || '🐾';
   card.appendChild(vis);
 
-  // name
+  // Name
   const nm = document.createElement('div');
   nm.className = 'pet-card-name';
   nm.textContent = pet.name;
   card.appendChild(nm);
 
-  // lock overlay
   if (isLocked) {
+    // Lock overlay
     const ov = document.createElement('div');
     ov.className = 'lock-overlay';
     ov.textContent = '🔒';
     card.appendChild(ov);
-    card.onclick = () => switchTab('store');
+    card.addEventListener('click', () => switchTab('store'));
   } else {
-    card.onclick = () => selectPet({ id: pet.id, type: 'emoji', value: pet.emoji, name: pet.name });
+    // FIX: capture pet in closure, don't use event reference
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.pet-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      selectPet({ id: pet.id, type: 'emoji', value: pet.emoji, name: pet.name });
+    });
   }
 
   return card;
@@ -911,7 +757,7 @@ function renderStore() {
     desc.textContent = pet.description;
     card.appendChild(desc);
 
-    if (pet.behaviors) {
+    if (pet.behaviors && pet.behaviors.length > 0) {
       const beh = document.createElement('div');
       beh.className = 'behaviors';
       pet.behaviors.forEach(b => {
@@ -926,28 +772,30 @@ function renderStore() {
     const footer = document.createElement('div');
     footer.className = 'card-footer';
 
-    const own = isUnlocked(pet);
-    if (own) {
-      const pr = document.createElement('div');
-      pr.className = 'price';
-      pr.textContent = pet.name;
-      footer.appendChild(pr);
-      const ob = document.createElement('div');
-      ob.className = 'owned-badge';
-      ob.textContent = '✓ Tuya';
-      footer.appendChild(ob);
+    if (isUnlocked(pet)) {
+      const label = document.createElement('div');
+      label.className = 'price';
+      label.textContent = pet.name;
+      footer.appendChild(label);
+      const badge = document.createElement('div');
+      badge.className = 'owned-badge';
+      badge.textContent = '✓ Tuya';
+      footer.appendChild(badge);
     } else {
-      const pr = document.createElement('div');
-      pr.className = 'price';
-      pr.innerHTML = '$' + Math.floor(pet.price/100) + '<span class="cents">.' + String(pet.price%100).padStart(2,'0') + ' USD</span>';
-      footer.appendChild(pr);
-      const btn = document.createElement('button');
-      btn.className = 'btn btn-primary';
-      btn.style.padding = '7px 14px';
-      btn.style.fontSize = '12px';
-      btn.textContent = 'Comprar';
-      btn.onclick = () => startCheckout('single', pet.id);
-      footer.appendChild(btn);
+      const priceEl = document.createElement('div');
+      priceEl.className = 'price';
+      const cents = String(pet.price % 100).padStart(2, '0');
+      priceEl.innerHTML = `$${Math.floor(pet.price/100)}<span class="cents">.${cents} USD</span>`;
+      footer.appendChild(priceEl);
+
+      const buyBtn = document.createElement('button');
+      buyBtn.className = 'btn btn-primary no-drag';
+      buyBtn.style.cssText = 'padding:7px 14px;font-size:12px;';
+      buyBtn.textContent = 'Comprar';
+      // FIX: capture pet.id in closure
+      const pid = pet.id;
+      buyBtn.addEventListener('click', () => startCheckout('single', pid));
+      footer.appendChild(buyBtn);
     }
 
     card.appendChild(footer);
@@ -955,48 +803,87 @@ function renderStore() {
   });
 
   // PetPass buttons
-  const email = license?.email || '';
-  document.getElementById('btn-pass-month').onclick = () => startCheckout('petpass-month', null, email);
-  document.getElementById('btn-pass-year').onclick  = () => startCheckout('petpass-year',  null, email);
+  const passMonthBtn = document.getElementById('btn-pass-month');
+  const passYearBtn  = document.getElementById('btn-pass-year');
+  if (passMonthBtn) {
+    passMonthBtn.onclick = () => startCheckout('petpass-month');
+  }
+  if (passYearBtn) {
+    passYearBtn.onclick = () => startCheckout('petpass-year');
+  }
 
+  // PetPass state: if already subscribed, disable the card
   if (license?.plan === 'petpass') {
-    document.getElementById('petpass-card').style.opacity = '0.5';
-    document.getElementById('petpass-card').style.pointerEvents = 'none';
+    const pc = document.getElementById('petpass-card');
+    pc.style.opacity = '0.5';
+    pc.style.pointerEvents = 'none';
   }
 }
 
-// ── Checkout & polling ────────────────────────────
-async function startCheckout(type, petId, email = license?.email || '') {
-  let sessionId;
-  if (type === 'single') {
-    const res = await window.api.checkoutSingle({ petId, email });
-    sessionId = res.sessionId;
-  } else {
-    const interval = type === 'petpass-year' ? 'year' : 'month';
-    const res = await window.api.checkoutPetpass({ interval, email });
-    sessionId = res.sessionId;
-  }
-  if (!sessionId) return;
-  currentSessionId = sessionId;
-  startPolling(sessionId);
+// ── Store message helper ──────────────────────────
+function showStoreMsg(text) {
+  const el = document.getElementById('store-msg');
+  el.textContent = text;
+  el.style.display = 'block';
+  clearTimeout(el._timer);
+  el._timer = setTimeout(() => { el.style.display = 'none'; }, 6000);
 }
 
+// ── Checkout ──────────────────────────────────────
+async function startCheckout(type, petId) {
+  const email = license?.email || '';
+
+  // Si el servidor no está configurado, mostrar mensaje
+  let result;
+  try {
+    if (type === 'single') {
+      result = await window.api.checkoutSingle({ petId, email });
+    } else {
+      const interval = type === 'petpass-year' ? 'year' : 'month';
+      result = await window.api.checkoutPetpass({ interval, email });
+    }
+  } catch (err) {
+    showStoreMsg('❌ No se pudo conectar. Verificá tu conexión o configurá el servidor primero.');
+    return;
+  }
+
+  if (!result) {
+    showStoreMsg('❌ Sin respuesta del servidor de pagos.');
+    return;
+  }
+  if (result.error === 'servidor_no_disponible') {
+    showStoreMsg('⚠️ El servidor de pagos no está configurado aún. Completá el setup de Railway primero.');
+    return;
+  }
+  if (result.error) {
+    showStoreMsg('❌ Error: ' + (result.message || result.error));
+    return;
+  }
+
+  if (result.sessionId) {
+    startPolling(result.sessionId);
+  }
+}
+
+// ── Polling ───────────────────────────────────────
 function startPolling(sessionId) {
   document.getElementById('poll-overlay').classList.add('visible');
   let attempts = 0;
   pollTimer = setInterval(async () => {
     attempts++;
-    if (attempts > 120) { stopPolling(); return; } // 4 min timeout
-    const res = await window.api.pollSession({ sessionId });
-    if (res.ready) {
-      stopPolling();
-      license = { email: res.email, key: res.key, plan: res.plan, unlocked: res.unlocked };
-      renderSidebar();
-      renderGallery();
-      renderStore();
-      switchTab('gallery');
-      alert('¡Pago confirmado! Tu mascota está lista 🎉');
-    }
+    if (attempts > 150) { stopPolling(); return; }
+    try {
+      const res = await window.api.pollSession({ sessionId });
+      if (res.ready) {
+        stopPolling();
+        license = { email: res.email, key: res.key, plan: res.plan, unlocked: res.unlocked || [] };
+        renderSidebar();
+        renderGallery();
+        renderStore();
+        switchTab('gallery');
+        alert('¡Pago confirmado! Tu mascota está lista 🎉');
+      }
+    } catch (_) {}
   }, 2000);
 }
 
@@ -1005,20 +892,23 @@ function stopPolling() {
   document.getElementById('poll-overlay').classList.remove('visible');
 }
 
-document.getElementById('btn-cancel-poll').onclick = stopPolling;
+document.getElementById('btn-cancel-poll').addEventListener('click', stopPolling);
 
-// ── Custom images ────────────────────────────────
+// ── Custom images ─────────────────────────────────
 async function loadCustom() {
-  const items = await window.api.listCustomImages();
+  const items = await window.api.listCustomImages().catch(() => []);
   const grid  = document.getElementById('custom-grid');
   grid.innerHTML = '';
+
   if (!items.length) {
     grid.innerHTML = '<p style="color:var(--txt3);font-size:12px;grid-column:1/-1;">Aún no subiste imágenes.</p>';
     return;
   }
+
   items.forEach(item => {
     const wrap = document.createElement('div');
-    wrap.className = 'custom-thumb';
+    wrap.className = 'custom-thumb no-drag';
+
     const img = document.createElement('img');
     img.src = item.src;
     img.draggable = false;
@@ -1027,14 +917,15 @@ async function loadCustom() {
     const del = document.createElement('button');
     del.className = 'del';
     del.textContent = '✕';
-    del.onclick = (e) => { e.stopPropagation(); wrap.remove(); };
+    del.addEventListener('click', e => { e.stopPropagation(); wrap.remove(); });
     wrap.appendChild(del);
 
-    wrap.onclick = () => {
+    wrap.addEventListener('click', () => {
       document.querySelectorAll('.custom-thumb').forEach(t => t.classList.remove('selected'));
       wrap.classList.add('selected');
       selectPet({ id: 'custom_' + Date.now(), type: 'img', value: item.src, name: item.name });
-    };
+    });
+
     grid.appendChild(wrap);
   });
 }
@@ -1047,80 +938,112 @@ async function handleFiles(files) {
       reader.onload = ev => r(ev.target.result.split(',')[1]);
       reader.readAsDataURL(file);
     });
-    await window.api.saveCustomImage({ name: file.name, base64: b64, mimeType: file.type });
+    await window.api.saveCustomImage({ name: file.name, base64: b64, mimeType: file.type }).catch(() => {});
   }
   loadCustom();
 }
 
 const dz = document.getElementById('drop-zone');
-document.getElementById('file-input').onchange = e => handleFiles([...e.target.files]);
-dz.ondragover = e => { e.preventDefault(); dz.classList.add('over'); };
-dz.ondragleave = () => dz.classList.remove('over');
-dz.ondrop = e => { e.preventDefault(); dz.classList.remove('over'); handleFiles([...e.dataTransfer.files].filter(f => f.type.startsWith('image/'))); };
+document.getElementById('file-input').addEventListener('change', e => handleFiles([...e.target.files]));
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('over'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('over'));
+dz.addEventListener('drop', e => {
+  e.preventDefault(); dz.classList.remove('over');
+  handleFiles([...e.dataTransfer.files].filter(f => f.type.startsWith('image/')));
+});
 
-// ── Selection & launch ───────────────────────────
+// ── Selection & launch ────────────────────────────
 function selectPet(pet) {
   selected = pet;
-  document.querySelectorAll('.pet-card').forEach(c => c.classList.remove('selected'));
-  event?.currentTarget?.classList.add('selected');
 
   document.getElementById('footer-info').style.opacity = '1';
   const vis = document.getElementById('footer-visual');
-  if (pet.type === 'emoji') vis.textContent = pet.value;
-  else { vis.innerHTML = `<img src="${pet.value}" style="width:32px;height:32px;object-fit:contain;">`; }
+  if (pet.type === 'emoji') {
+    vis.textContent = pet.value;
+  } else {
+    vis.innerHTML = `<img src="${pet.value}">`;
+  }
   document.getElementById('footer-name').textContent = pet.name;
   document.getElementById('btn-launch').disabled = false;
 }
 
-document.getElementById('btn-launch').onclick = () => {
+document.getElementById('btn-launch').addEventListener('click', () => {
   if (!selected) return;
   window.api.launchPet(selected);
-};
+  // Visual feedback: flash the button
+  const btn = document.getElementById('btn-launch');
+  const orig = btn.textContent;
+  btn.textContent = '✓ ¡Invocada!';
+  btn.style.background = 'linear-gradient(135deg,#40c080,#30a060)';
+  setTimeout(() => {
+    btn.textContent = orig;
+    btn.style.background = '';
+  }, 1200);
+});
 
-// ── License form ─────────────────────────────────
-document.getElementById('btn-verify').onclick = async () => {
+// ── License ───────────────────────────────────────
+document.getElementById('btn-verify').addEventListener('click', async () => {
   const email = document.getElementById('lic-email').value.trim();
   const key   = document.getElementById('lic-key').value.trim();
   const msg   = document.getElementById('form-msg');
-  if (!email || !key) { msg.textContent = 'Completa ambos campos.'; msg.className = 'form-msg err'; return; }
-  msg.textContent = 'Verificando…'; msg.className = 'form-msg';
-  const res = await window.api.verifyLicense({ email, key });
-  if (res.valid) {
-    license = { email, key, plan: res.plan, unlocked: res.unlocked };
-    msg.textContent = '✓ Licencia activada correctamente.';
-    msg.className   = 'form-msg ok';
-    renderSidebar(); renderGallery(); renderStore();
-  } else {
-    msg.textContent = 'Licencia inválida o expirada.';
+
+  if (!email || !key) {
+    msg.textContent = 'Completá ambos campos.';
+    msg.className   = 'form-msg err';
+    return;
+  }
+
+  msg.textContent = 'Verificando…';
+  msg.className   = 'form-msg';
+
+  try {
+    const res = await window.api.verifyLicense({ email, key });
+    if (res.valid) {
+      license = { email, key, plan: res.plan, unlocked: res.unlocked || [] };
+      msg.textContent = '✓ Licencia activada correctamente.';
+      msg.className   = 'form-msg ok';
+      renderSidebar(); renderGallery(); renderStore();
+    } else {
+      msg.textContent = 'Licencia inválida o expirada.';
+      msg.className   = 'form-msg err';
+    }
+  } catch (_) {
+    msg.textContent = 'No se pudo conectar al servidor de licencias.';
     msg.className   = 'form-msg err';
   }
-};
+});
 
-document.getElementById('btn-logout').onclick = async () => {
-  await window.api.logout();
+document.getElementById('btn-logout').addEventListener('click', async () => {
+  await window.api.logout().catch(() => {});
   license = null;
   renderSidebar(); renderGallery(); renderStore();
   document.getElementById('lic-email').value = '';
   document.getElementById('lic-key').value   = '';
   document.getElementById('form-msg').textContent = '';
-};
-
-document.getElementById('sb-action').onclick = () => switchTab('license');
-
-// ── Tabs ─────────────────────────────────────────
-function switchTab(id) {
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.tab === id));
-  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + id));
-}
-document.querySelectorAll('.nav-item').forEach(n => {
-  n.onclick = () => switchTab(n.dataset.tab);
 });
 
-// ── Window controls ──────────────────────────────
-document.getElementById('btn-close').onclick   = () => window.api.closeLauncher();
-document.getElementById('btn-min').onclick     = () => window.api.minimizeLauncher();
+document.getElementById('sb-action').addEventListener('click', () => switchTab('license'));
 
-// ── Boot ─────────────────────────────────────────
+// ── Tabs ──────────────────────────────────────────
+function switchTab(id) {
+  document.querySelectorAll('.nav-item').forEach(n => {
+    n.classList.toggle('active', n.dataset.tab === id);
+  });
+  document.querySelectorAll('.panel').forEach(p => {
+    p.classList.toggle('active', p.id === 'panel-' + id);
+  });
+  if (id === 'custom') loadCustom();
+}
+
+document.querySelectorAll('.nav-item').forEach(n => {
+  n.addEventListener('click', () => switchTab(n.dataset.tab));
+});
+
+// ── Window controls ───────────────────────────────
+document.getElementById('btn-close').addEventListener('click', () => window.api.closeLauncher());
+document.getElementById('btn-min').addEventListener('click', () => window.api.minimizeLauncher());
+
+// ── Boot ──────────────────────────────────────────
 init();
 </script>
 </body>

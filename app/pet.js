@@ -1,10 +1,9 @@
 // ═══════════════════════════════════════════════════════
-//  PETPALS  –  pet.js  (física + comportamientos)
+//  PETPALS  –  pet.js
 // ═══════════════════════════════════════════════════════
 
 const petEl    = document.getElementById('pet');
 const bubbleEl = document.getElementById('bubble');
-const ctxMenu  = document.getElementById('ctx-menu');
 
 // ── Pet identity ────────────────────────────────
 let petType  = 'emoji';
@@ -17,20 +16,20 @@ const WIN = 160;
 let screenW = 1920, screenH = 1080;
 let winX = 0, winY = 0;
 
-// ── Physics ─────────────────────────────────────
-const GRAVITY    = 0.58;
-const WALK_SPD   = 2.2;
-const CLIMB_SPD  = 1.5;
-const BOUNCE     = 0.18;
-const MAX_VEL    = 24;
+// ── Physics constants ───────────────────────────
+const GRAVITY   = 0.58;
+const WALK_SPD  = 2.2;
+const CLIMB_SPD = 1.8;
+const BOUNCE    = 0.15;
+const MAX_VEL   = 24;
 
+// ── Physics state ───────────────────────────────
 let velX = 0, velY = 0;
 let onGround = false;
 let wallSide = null;   // null | 'left' | 'right'
-let climbDir = 1;
+let climbDir = 1;      // 1=up, -1=down
 
-// ── State machine ───────────────────────────────
-// states: fall | walk | idle | sleep | climb | thrown | follow | special
+// ── Behaviour state ─────────────────────────────
 let state      = 'fall';
 let stateTimer = 0;
 let facing     = 1;
@@ -38,13 +37,12 @@ let followMode = false;
 let specialCooldown = 0;
 
 const STATE_DUR = {
-  walk:  () => 2200 + Math.random() * 3800,
-  idle:  () => 1600 + Math.random() * 2400,
-  sleep: () => 4000 + Math.random() * 6000,
-  climb: () => 1500 + Math.random() * 2500,
+  walk:  () => 2000 + Math.random() * 3500,
+  idle:  () => 1500 + Math.random() * 2200,
+  sleep: () => 4000 + Math.random() * 5000,
+  climb: () => 1800 + Math.random() * 2500,
 };
 
-// ── Special behaviors per pet ───────────────────
 const SPECIALS = {
   ghost_pixel:  ghostBehavior,
   ninja_pixel:  ninjaBehavior,
@@ -53,23 +51,21 @@ const SPECIALS = {
   robot_pet:    robotBehavior,
 };
 
-// ── Drag velocity sampling ──────────────────────
-const SAMPLES   = 6;
-let velBuffer   = [];
-let dragging    = false;
-let dragAnchorScreenX = 0;
-let dragAnchorScreenY = 0;
-let dragAnchorWinX    = 0;
-let dragAnchorWinY    = 0;
+// ── Drag sampling ───────────────────────────────
+const SAMPLES = 6;
+let velBuffer      = [];
+let dragging       = false;
+let dragAnchorScrX = 0, dragAnchorScrY = 0;
+let dragAnchorWinX = 0, dragAnchorWinY = 0;
 
 // ── Phrases ─────────────────────────────────────
 const PH = {
   idle:   ['(=^ω^=)', '...', '♪♫', '¡Hola!', '(・ω・)'],
   sleep:  ['zzZzZ', '💤', '(-.-)Zzz', 'mmm...'],
-  climb:  ['¡Weee!', '↑↑↑', '¡Yo puedo!'],
-  walk:   ['*sniff*', '¿Qué hay aquí?', '(=ↀωↀ=)'],
+  climb:  ['¡Weee!', '↑↑↑', '¡Yo puedo!', '¡Soy Spiderman!'],
+  walk:   ['*sniff*', '¿Qué hay aquí?', '(=ↀωↀ=)', '...'],
   thrown: ['¡¡AHHH!!', '😱', 'Wooosh~', '¡Vueloooo!'],
-  drag:   ['¡Sostenme!', 'Eeeeh~', '(*´▽｀*)'],
+  drag:   ['¡Sostenme!', 'Eeeeh~', '(*´▽｀*)', '¡Cuidado!'],
 };
 
 // ── Init ─────────────────────────────────────────
@@ -77,9 +73,12 @@ let lastTime = performance.now();
 
 async function init() {
   const b = await window.api.getScreenBounds();
-  screenW = b.width; screenH = b.height;
+  screenW = b.width;
+  screenH = b.height;
+
   const p = await window.api.getWinPosition();
-  winX = p.x; winY = p.y;
+  winX = p.x;
+  winY = p.y;
 
   window.api.onInit(data => {
     petType  = data.type  || 'emoji';
@@ -88,6 +87,9 @@ async function init() {
     petId    = data.id    || 'cat_basic';
     applyVisual();
   });
+
+  // Commands relayed from the floating ctx menu window
+  window.api.onCtxCommand(cmd => handleCtxCommand(cmd));
 
   changeState('fall');
   requestAnimationFrame(loop);
@@ -101,97 +103,117 @@ function applyVisual() {
   } else {
     petEl.classList.remove('is-emoji');
     const img = document.createElement('img');
-    img.src = petValue; img.draggable = false;
+    img.src = petValue;
+    img.draggable = false;
     petEl.appendChild(img);
   }
-  // ctx menu
-  const cv = document.getElementById('ctx-visual');
-  cv.innerHTML = '';
-  if (petType === 'emoji') cv.textContent = petValue;
-  else { const i = document.createElement('img'); i.src = petValue; cv.appendChild(i); }
-  document.getElementById('ctx-name').textContent = petName;
 }
 
-// ── State ────────────────────────────────────────
+// ── Context menu commands ────────────────────────
+function handleCtxCommand(cmd) {
+  switch (cmd) {
+    case 'follow':
+      followMode = !followMode;
+      if (!followMode) { state = 'fall'; onGround = false; }
+      break;
+    case 'clone':
+      window.api.spawnClone({ type: petType, value: petValue, name: petName, id: petId });
+      showBubble('✨ ¡Me copié!');
+      break;
+    case 'new':
+      window.api.openLauncher();
+      break;
+    case 'dismiss':
+      window.api.dismissPet();
+      break;
+    case 'dismiss-all':
+      window.api.dismissAll();
+      break;
+  }
+}
+
+// ── State machine ────────────────────────────────
 function changeState(s) {
   state = s;
   stateTimer = STATE_DUR[s] ? STATE_DUR[s]() : 99999;
   petEl.classList.toggle('sleeping', s === 'sleep');
-  document.getElementById('ctx-state').textContent = stateLabel(s);
 
-  if (s === 'walk')  { facing = Math.random() < 0.5 ? 1 : -1; velX = facing * WALK_SPD; velY = 0; wallSide = null; }
-  if (s === 'idle' || s === 'sleep') { velX = 0; velY = 0; }
-  if (s === 'climb') { velX = 0; climbDir = Math.random() < 0.5 ? 1 : -1; }
+  if (s === 'walk') {
+    facing   = Math.random() < 0.5 ? 1 : -1;
+    velX     = facing * WALK_SPD;
+    velY     = 0;
+    wallSide = null;
+  }
+  if (s === 'idle' || s === 'sleep') {
+    velX = 0; velY = 0;
+  }
+  if (s === 'climb') {
+    velX     = 0;
+    climbDir = (winY < 80) ? -1 : 1;
+    velY     = -climbDir * CLIMB_SPD;
+  }
 }
 
 function stateLabel(s) {
-  return { fall:'cayendo', walk:'caminando', idle:'descansando', sleep:'durmiendo',
-           climb:'escalando', thrown:'¡volando!', follow:'siguiendo cursor', special:'¡especial!' }[s] || s;
+  return { fall:'cayendo', walk:'caminando', idle:'descansando',
+           sleep:'durmiendo', climb:'escalando', thrown:'¡volando!',
+           follow:'siguiendo cursor' }[s] || s;
 }
 
 function pickNext() {
   if (!onGround) return;
 
-  // occasionally trigger special behavior
   specialCooldown--;
-  if (specialCooldown <= 0 && SPECIALS[petId] && Math.random() < 0.2) {
-    specialCooldown = 8;
+  if (specialCooldown <= 0 && SPECIALS[petId] && Math.random() < 0.18) {
+    specialCooldown = 10;
     SPECIALS[petId]();
     return;
   }
 
-  if (wallSide && Math.random() < 0.3) { changeState('climb'); return; }
+  if (wallSide && Math.random() < 0.35) { changeState('climb'); return; }
+
   const r = Math.random();
-  if (r < 0.55) changeState('walk');
+  if      (r < 0.55) changeState('walk');
   else if (r < 0.80) changeState('idle');
-  else changeState('sleep');
+  else               changeState('sleep');
 }
 
 // ── Special behaviors ───────────────────────────
 function ghostBehavior() {
-  // Ghost: fades and teleports to random spot
   showBubble('👻 Boo!');
   petEl.style.transition = 'opacity 0.5s';
   petEl.style.opacity = '0';
   setTimeout(() => {
-    winX = Math.random() * (screenW - WIN);
-    winY = Math.random() * (screenH - WIN);
+    winX = 50 + Math.random() * (screenW - WIN - 100);
+    winY = 50 + Math.random() * (screenH - WIN - 100);
     window.api.moveWindow(winX, winY);
     petEl.style.opacity = '1';
+    petEl.style.transition = '';
     changeState('idle');
   }, 600);
 }
-
 function ninjaBehavior() {
-  // Ninja: dashes horizontally at high speed
   showBubble('🥷 ¡Shuriken!');
-  velX = facing * 18;
-  velY = -6;
-  state = 'thrown';
-  onGround = false;
+  velX = facing * 18; velY = -7;
+  state = 'thrown'; onGround = false;
 }
-
 function dragonBehavior() {
   showBubble('🔥 ¡Fuego!');
-  changeState('idle');
+  velY = -12; velX = facing * 4;
+  state = 'thrown'; onGround = false;
 }
-
 function witchBehavior() {
   showBubble('✨ ¡Abracadabra!');
-  // Quick vertical jump
-  velY = -14;
-  velX = facing * 3;
-  state = 'thrown';
-  onGround = false;
+  velY = -15; velX = facing * 3;
+  state = 'thrown'; onGround = false;
 }
-
 function robotBehavior() {
   const now = new Date();
   showBubble(`🤖 ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`, 3000);
   changeState('idle');
 }
 
-// ── Loop ────────────────────────────────────────
+// ── Main loop ────────────────────────────────────
 function loop(now) {
   const delta = Math.min(now - lastTime, 50);
   lastTime = now;
@@ -206,75 +228,130 @@ function tick(delta) {
     case 'fall':
       velY += GRAVITY;
       break;
+
     case 'thrown':
       velY += GRAVITY;
-      velX *= 0.993;
+      velX *= 0.994;
       break;
+
     case 'walk':
       velY += GRAVITY;
       velX = facing * WALK_SPD;
       if (stateTimer <= 0) pickNext();
       break;
+
     case 'idle':
       velY += GRAVITY;
       velX = 0;
       if (stateTimer <= 0) pickNext();
       break;
+
     case 'sleep':
       velX = 0; velY = 0;
       if (stateTimer <= 0) pickNext();
       break;
-    case 'climb':
-      velX = 0;
+
+    case 'climb': {
+      // Pin to wall, suppress gravity
+      velX = (wallSide === 'right') ? 1 : -1;
       velY = -climbDir * CLIMB_SPD;
-      if (stateTimer <= 0 || onGround) { wallSide = null; pickNext(); }
-      if (winY <= 4 && climbDir === 1) { // launch off top of wall
-        velX = facing * 6; velY = -11;
-        wallSide = null; state = 'thrown';
+
+      if (winY <= 4) {
+        // Reached top → jump off
+        velX = (wallSide === 'right' ? -1 : 1) * 6;
+        velY = -10;
+        wallSide = null;
+        changeState('thrown');
+        break;
+      }
+      if (onGround && climbDir === -1) {
+        // Climbed back down, landed
+        wallSide = null;
+        pickNext();
+        break;
+      }
+      if (stateTimer <= 0) {
+        if (climbDir === 1) {
+          // Reverse: go back down
+          climbDir = -1;
+          velY = CLIMB_SPD;
+          stateTimer = STATE_DUR.climb();
+        } else {
+          wallSide = null;
+          pickNext();
+        }
       }
       break;
+    }
   }
 
   winX += velX;
   winY += velY;
-  collide();
+  resolveCollisions();
   window.api.moveWindow(winX, winY);
-  render();
+  renderVisual();
 }
 
-function collide() {
+// ── Collision resolution ─────────────────────────
+function resolveCollisions() {
   const maxX = screenW - WIN;
   const maxY = screenH - WIN;
 
+  // Floor
   if (winY >= maxY) {
     winY = maxY;
-    if (velY > 2) velY = -velY * BOUNCE; else velY = 0;
-    if (!onGround) { onGround = true; wallSide = null; pickNext(); }
+    const wasAirborne = !onGround;
     onGround = true;
-  } else { onGround = false; }
+    if (velY > 3) velY = -velY * BOUNCE;
+    else          velY = 0;
+    if (wasAirborne && state !== 'climb') {
+      if (winX > 2 && winX < maxX - 2) wallSide = null;
+      pickNext();
+    }
+  } else {
+    onGround = false;
+  }
 
+  // Ceiling
   if (winY < 0) { winY = 0; if (velY < 0) velY = 0; }
 
+  // Right wall
   if (winX >= maxX) {
-    winX = maxX; if (velX > 0) velX = 0;
-    if (state === 'walk' && wallSide !== 'right') { wallSide = 'right'; facing = -1; changeState('climb'); }
-    else if (state === 'thrown') { velX = -Math.abs(velX) * 0.4; }
+    winX = maxX;
+    if (velX > 0) velX = 0;
+    if (state !== 'climb') {
+      wallSide = 'right';
+      facing   = -1;
+      if (Math.random() < 0.65) changeState('climb');
+      else { velX = -WALK_SPD; wallSide = null; if (onGround) changeState('walk'); }
+    }
+  } else if (wallSide === 'right' && winX < maxX - 8 && state !== 'climb') {
+    wallSide = null;
   }
+
+  // Left wall
   if (winX <= 0) {
-    winX = 0; if (velX < 0) velX = 0;
-    if (state === 'walk' && wallSide !== 'left') { wallSide = 'left'; facing = 1; changeState('climb'); }
-    else if (state === 'thrown') { velX = Math.abs(velX) * 0.4; }
+    winX = 0;
+    if (velX < 0) velX = 0;
+    if (state !== 'climb') {
+      wallSide = 'left';
+      facing   = 1;
+      if (Math.random() < 0.65) changeState('climb');
+      else { velX = WALK_SPD; wallSide = null; if (onGround) changeState('walk'); }
+    }
+  } else if (wallSide === 'left' && winX > 8 && state !== 'climb') {
+    wallSide = null;
   }
 }
 
-function render() {
+// ── Render ───────────────────────────────────────
+function renderVisual() {
   let sx = facing >= 0 ? 1 : -1;
-  if (wallSide === 'right') sx = -1;
-  if (wallSide === 'left')  sx =  1;
+  if (state === 'climb') sx = wallSide === 'right' ? -1 : 1;
 
   let rot = 0;
-  if (state === 'thrown') rot = Math.max(-50, Math.min(50, velX * 4.5));
-  if (state === 'climb')  rot = climbDir > 0 ? (wallSide === 'right' ? -20 : 20) : (wallSide === 'right' ? 20 : -20);
+  if (state === 'thrown') rot = Math.max(-55, Math.min(55, velX * 4));
+  if (state === 'climb')  rot = (climbDir === 1 ? -15 : 15) * (wallSide === 'right' ? 1 : -1);
 
   petEl.style.transform = `scaleX(${sx}) rotate(${rot}deg)`;
 }
@@ -286,11 +363,10 @@ petEl.addEventListener('mousedown', e => {
   dragging = true;
   petEl.classList.add('dragging');
   window.api.setIgnoreMouse(false);
-
-  dragAnchorScreenX = e.screenX;
-  dragAnchorScreenY = e.screenY;
-  dragAnchorWinX    = winX;
-  dragAnchorWinY    = winY;
+  dragAnchorScrX = e.screenX;
+  dragAnchorScrY = e.screenY;
+  dragAnchorWinX = winX;
+  dragAnchorWinY = winY;
   velBuffer = [];
   velX = 0; velY = 0;
   showBubble(rand(PH.drag));
@@ -300,12 +376,10 @@ window.addEventListener('mousemove', e => {
   if (dragging) {
     velBuffer.push({ x: e.screenX, y: e.screenY, t: performance.now() });
     if (velBuffer.length > SAMPLES) velBuffer.shift();
-
-    winX = Math.max(0, Math.min(screenW - WIN, dragAnchorWinX + (e.screenX - dragAnchorScreenX)));
-    winY = Math.max(0, Math.min(screenH - WIN, dragAnchorWinY + (e.screenY - dragAnchorScreenY)));
+    winX = Math.max(0, Math.min(screenW - WIN, dragAnchorWinX + (e.screenX - dragAnchorScrX)));
+    winY = Math.max(0, Math.min(screenH - WIN, dragAnchorWinY + (e.screenY - dragAnchorScrY)));
     window.api.moveWindow(winX, winY);
   }
-
   if (followMode) {
     const tx = e.screenX - WIN / 2;
     const ty = e.screenY - WIN / 2;
@@ -313,7 +387,7 @@ window.addEventListener('mousemove', e => {
     winY += (ty - winY) * 0.16;
     window.api.moveWindow(winX, winY);
     if (Math.abs(e.movementX) > 0.5) facing = e.movementX > 0 ? 1 : -1;
-    render();
+    renderVisual();
   }
 });
 
@@ -322,11 +396,10 @@ window.addEventListener('mouseup', () => {
   dragging = false;
   petEl.classList.remove('dragging');
 
-  // Compute throw velocity from ring buffer
   if (velBuffer.length >= 2) {
     const a = velBuffer[0], b = velBuffer[velBuffer.length - 1];
     const dt = Math.max(b.t - a.t, 1);
-    velX = ((b.x - a.x) / dt) * 16 * 0.65;  // scale to ~per-frame @ 60fps
+    velX = ((b.x - a.x) / dt) * 16 * 0.65;
     velY = ((b.y - a.y) / dt) * 16 * 0.65;
   } else {
     velX = 0; velY = 0;
@@ -334,24 +407,16 @@ window.addEventListener('mouseup', () => {
 
   velX = Math.max(-MAX_VEL, Math.min(MAX_VEL, velX));
   velY = Math.max(-MAX_VEL, Math.min(MAX_VEL, velY));
-
   onGround = false; wallSide = null;
-  const speed = Math.sqrt(velX*velX + velY*velY);
+  const speed = Math.sqrt(velX * velX + velY * velY);
   state = speed > 2 ? 'thrown' : 'fall';
-
-  if (speed > 4) {
-    facing = velX >= 0 ? 1 : -1;
-    showBubble(rand(PH.thrown));
-  }
-
-  if (!ctxMenu.classList.contains('visible')) window.api.setIgnoreMouse(true);
+  if (speed > 4) { facing = velX >= 0 ? 1 : -1; showBubble(rand(PH.thrown)); }
+  window.api.setIgnoreMouse(true);
 });
 
 // ── Hover ────────────────────────────────────────
 petEl.addEventListener('mouseenter', () => window.api.setIgnoreMouse(false));
-petEl.addEventListener('mouseleave', () => {
-  if (!dragging && !ctxMenu.classList.contains('visible')) window.api.setIgnoreMouse(true);
-});
+petEl.addEventListener('mouseleave', () => { if (!dragging) window.api.setIgnoreMouse(true); });
 
 // ── Double click ─────────────────────────────────
 petEl.addEventListener('dblclick', () => {
@@ -362,33 +427,21 @@ petEl.addEventListener('dblclick', () => {
   showBubble('¡Weee! 🎉');
 });
 
-// ── Context menu ─────────────────────────────────
-petEl.addEventListener('contextmenu', e => {
+// ── Context menu — opens floating window ─────────
+petEl.addEventListener('contextmenu', async e => {
   e.preventDefault();
-  ctxMenu.style.left = e.clientX + 'px';
-  ctxMenu.style.top  = Math.max(0, e.clientY - 170) + 'px';
-  ctxMenu.classList.add('visible');
   window.api.setIgnoreMouse(false);
+  const pos = await window.api.getWinPosition();
+  window.api.showCtxMenu({
+    screenX:    pos.x + e.clientX,
+    screenY:    pos.y + e.clientY,
+    petName:    petName,
+    petState:   stateLabel(state),
+    petEmoji:   petType === 'emoji' ? petValue : null,
+    petImg:     petType === 'img'   ? petValue : null,
+    followMode: followMode,
+  });
 });
-
-document.addEventListener('click', () => {
-  ctxMenu.classList.remove('visible');
-  if (!dragging) window.api.setIgnoreMouse(true);
-});
-ctxMenu.addEventListener('click', e => e.stopPropagation());
-
-document.getElementById('ctx-follow').onclick = () => {
-  followMode = !followMode;
-  document.getElementById('ctx-follow').textContent = followMode ? '🖱️ Dejar de seguir' : '🖱️ Seguir cursor';
-  if (!followMode) { state = 'fall'; onGround = false; }
-  ctxMenu.classList.remove('visible');
-  window.api.setIgnoreMouse(true);
-};
-
-document.getElementById('ctx-clone').onclick    = () => { window.api.spawnClone({ type:petType, value:petValue, name:petName, id:petId }); showBubble('✨ ¡Me copié!'); ctxMenu.classList.remove('visible'); };
-document.getElementById('ctx-new').onclick      = () => { window.api.openLauncher(); ctxMenu.classList.remove('visible'); };
-document.getElementById('ctx-dismiss').onclick  = () => window.api.dismissPet();
-document.getElementById('ctx-dismiss-all').onclick = () => window.api.dismissAll();
 
 // ── Bubble ───────────────────────────────────────
 let bubbleTimer = null;
@@ -400,11 +453,11 @@ function showBubble(text, ms = 2500) {
 }
 
 setInterval(() => {
-  if (dragging || followMode || Math.random() > 0.28) return;
+  if (dragging || followMode || Math.random() > 0.3) return;
   showBubble(rand(PH[state] || PH.idle));
-}, 8000);
+}, 9000);
 
 // ── Util ─────────────────────────────────────────
-function rand(a) { return a[Math.floor(Math.random() * a.length)]; }
+function rand(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
 init();

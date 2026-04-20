@@ -21,6 +21,17 @@ app.use(express.json());
 //  CATÁLOGO DE MASCOTAS (fuente de verdad)
 // ═══════════════════════════════════════════════
 const CATALOG = [
+
+  { 
+  id: 'mi_mascota',
+  name: 'Mi Mascota',
+  tier: 'premium',           // 'free' | 'premium' | 'petpass'
+  price: 199,                // centavos
+  priceId: process.env.PRICE_MI_MASCOTA,
+  emoji: '🦋',
+  description: 'Descripción aquí',
+  behaviors: ['walk','fly','idle','sleep']
+  },
   // GRATIS
   { id: 'cat_basic',  name: 'Gatito',   tier: 'free',    price: 0,    emoji: '🐱', description: 'El clásico infaltable', behaviors: ['walk','idle','sleep'] },
   { id: 'dog_basic',  name: 'Perrito',  tier: 'free',    price: 0,    emoji: '🐶', description: 'Fiel compañero',        behaviors: ['walk','idle','sleep'] },
